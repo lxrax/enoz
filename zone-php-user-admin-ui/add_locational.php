@@ -89,7 +89,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $sql = "INSERT INTO locational_clearances (
                     applicant_name, developer_name, developer_address, project_location, date_filed, expiration_date, clearance_number,
                     project_name, right_over_land, land_area, building_area, decision,
-                    or_number, amount_paid, date_paid, issued_at, encoded_by_user_id,
+                    or_number, fees_paid, date_paid, issued_at, encoded_by_user_id,
                     condition1_monitoring, condition2_non_compliance, condition3_other_agencies,
                     condition4_activity_applied_for, condition5_no_major_expansion,
                     condition6_not_cert_ownership, condition7_misrepresentation, condition8_commencement_period,
