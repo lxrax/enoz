@@ -287,19 +287,18 @@ nav a:hover {
 body {
     display: flex;
     flex-direction: column;
-    align-items: center;
     min-height: 100vh;
     margin: 0;
 }
 
 /* The main container for content should not be centered by default anymore */
 .container {
-    width: 90%; /* Or your preferred width */
+    width: 100%;
     max-width: 1200px;
-    margin: 20px 0; /* Vertical margin */
+    margin: 20px auto; /* Re-center horizontally */
     padding: 20px;
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    flex-grow: 1; /* Allows the container to grow and push the footer down */
+    flex: 1; /* Allows the container to grow and push the footer down */
 }
