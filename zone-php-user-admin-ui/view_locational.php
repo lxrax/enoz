@@ -137,6 +137,11 @@ $is_admin_view_lc = isset($_SESSION["is_admin"]) && $_SESSION["is_admin"] === tr
     </div>
 
     <div class="detail-item full-width-grid" style="margin-top:20px;">
+        <strong>Evaluation Data:</strong>
+        <div><?php echo nl2br(htmlspecialchars($clearance['evaluation_data'] ?: 'N/A')); ?></div>
+    </div>
+
+    <div class="detail-item full-width-grid" style="margin-top:20px;">
         <strong>Conditions:</strong>
         <ul class="conditions-view-list">
             <?php for($i = 1; $i <= 8; $i++): ?>

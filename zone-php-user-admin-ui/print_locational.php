@@ -125,6 +125,10 @@ $condition_texts = [
         </div>
 
         <div class="decision-text">
+            <strong>EVALUATION:</strong> <?php echo nl2br(htmlspecialchars($permit['evaluation_data'])); ?>
+        </div>
+
+        <div class="decision-text">
             <strong>DECISION:</strong> <?php echo nl2br(htmlspecialchars($permit['decision'])); ?>
         </div>
 

@@ -86,20 +86,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $expiration_date = $expiration_date_obj->format('Y-m-d');
 
         $applicant_address = trim($_POST['applicant_address']);
+        $evaluation_data = trim($_POST['evaluation_data']);
         $sql = "INSERT INTO locational_clearances (
                     applicant_name, applicant_address, developer_name, developer_address, project_location, date_filed, expiration_date, clearance_number,
-                    project_name, right_over_land, land_area, building_area, decision,
+                    project_name, right_over_land, land_area, building_area, evaluation_data, decision,
                     or_number, amount_paid, date_paid, issued_at, encoded_by_user_id,
                     condition1_monitoring, condition2_non_compliance, condition3_other_agencies,
                     condition4_activity_applied_for, condition5_no_major_expansion,
                     condition6_not_cert_ownership, condition7_misrepresentation, condition8_commencement_period,
                     condition9_revoked, condition10_provisional
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         if ($stmt = mysqli_prepare($link, $sql)) {
-            mysqli_stmt_bind_param($stmt, "sssssssssssssdssiiiiiiiiiii",
+            mysqli_stmt_bind_param($stmt, "ssssssssssssssdssiiiiiiiiiii",
                 $applicant_name, $applicant_address, $developer_name, $developer_address, $project_location, $date_filed, $expiration_date, $clearance_number,
-                $project_name, $right_over_land, $land_area, $building_area, $decision,
+                $project_name, $right_over_land, $land_area, $building_area, $evaluation_data, $decision,
                 $or_number, $amount_paid, $date_paid, $issued_at, $encoded_by_user_id,
                 $conditions['condition1'], $conditions['condition2'], $conditions['condition3'], $conditions['condition4'],
                 $conditions['condition5'], $conditions['condition6'],
@@ -215,6 +216,11 @@ $condition_texts = [
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="form-group full-width" style="margin-top:20px;">
+            <label>EVALUATION DATA:</label>
+            <textarea name="evaluation_data" class="form-control" rows="4" maxlength="1000"></textarea>
         </div>
 
         <div class="form-group full-width" style="margin-top:20px;">

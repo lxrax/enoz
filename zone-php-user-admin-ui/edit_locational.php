@@ -63,10 +63,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $expiration_date_obj = new DateTime($issue_date);
         $expiration_date_obj->add(new DateInterval('P1Y'));
         $expiration_date = $expiration_date_obj->format('Y-m-d');
+        $evaluation_data = trim($_POST['evaluation_data']);
 
         $sql = "UPDATE locational_clearances SET
                     applicant_name=?, applicant_address=?, developer_name=?, developer_address=?, project_location=?, issue_date=?, expiration_date=?,
-                    project_name=?, right_over_land=?, land_area=?, building_area=?, decision=?,
+                    project_name=?, right_over_land=?, land_area=?, building_area=?, evaluation_data=?, decision=?,
                     or_number=?, amount_paid=?, date_paid=?, issued_at=?,
                     condition1_monitoring=?, condition2_non_compliance=?, condition3_other_agencies=?,
                     condition4_activity_applied_for=?, condition5_no_major_expansion=?,
@@ -75,9 +76,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 WHERE id=?";
 
         if ($stmt = mysqli_prepare($link, $sql)) {
-            mysqli_stmt_bind_param($stmt, "sssssssssssssdssiiiiiiiiiii",
+            mysqli_stmt_bind_param($stmt, "ssssssssssssssdssiiiiiiiiiii",
                 $applicant_name, $applicant_address, $developer_name, $developer_address, $project_location, $issue_date, $expiration_date,
-                $project_name, $right_over_land, $land_area, $building_area, $decision,
+                $project_name, $right_over_land, $land_area, $building_area, $evaluation_data, $decision,
                 $or_number, $amount_paid, $date_paid, $issued_at,
                 $conditions_db['condition1'], $conditions_db['condition2'], $conditions_db['condition3'], $conditions_db['condition4'],
                 $conditions_db['condition5'], $conditions_db['condition6'], $conditions_db['condition7'], $conditions_db['condition8'],
@@ -111,6 +112,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $right_over_land = $permit['right_over_land'];
                 $land_area = $permit['land_area'];
                 $building_area = $permit['building_area'];
+                $evaluation_data = $permit['evaluation_data'];
                 $decision = $permit['decision'];
                 $project_location = $permit['project_location'];
                 $issue_date = $permit['issue_date'];
@@ -193,6 +195,11 @@ mysqli_close($link);
                     <div class="form-group" style="flex:1;"><label>BUILDING AREA:</label><input type="text" name="building_area" class="form-control" value="<?php echo htmlspecialchars($building_area); ?>"></div>
                 </div>
             </div>
+        </div>
+
+        <div class="form-group full-width" style="margin-top:20px;">
+            <label>EVALUATION DATA:</label>
+            <textarea name="evaluation_data" class="form-control" rows="4" maxlength="1000"><?php echo htmlspecialchars($evaluation_data); ?></textarea>
         </div>
 
         <div class="form-group full-width" style="margin-top:20px;">
