@@ -155,14 +155,14 @@ mysqli_close($link);
     .full-width { grid-column: 1 / -1; }
 </style>
  <script>
-    function toggleAllConditions(source) {
-        const checkboxes = document.querySelectorAll('.condition-checkbox');
-        for (let i = 0; i < checkboxes.length; i++) {
-            checkboxes[i].checked = source.checked;
-        }
-    }
-
     document.addEventListener('DOMContentLoaded', function() {
+        function toggleAllConditions(source) {
+            const checkboxes = document.querySelectorAll('.condition-checkbox');
+            for (let i = 0; i < checkboxes.length; i++) {
+                checkboxes[i].checked = source.checked;
+            }
+        }
+
         const decisionSelect = document.querySelector('select[name="decision"]');
         const conditionsFieldset = document.querySelector('.conditions-fieldset');
 
@@ -176,6 +176,9 @@ mysqli_close($link);
 
         decisionSelect.addEventListener('change', toggleConditions);
         toggleConditions(); // Run on page load
+
+        // Make toggleAllConditions globally accessible
+        window.toggleAllConditions = toggleAllConditions;
     });
 </script>
 
