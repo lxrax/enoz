@@ -47,93 +47,85 @@ if($result = mysqli_query($link, $sql)){
 mysqli_close($link);
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>View Locational Clearances</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-        .user-view-container { width: 90%; margin: 20px auto; padding: 15px; background-color: #fff; border-radius: 8px; }
-        .page-header-user { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .page-header-user h2 { margin: 0; }
-        .btn-back-user {
-            text-decoration: none;
-            background-color: #6c757d;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 4px;
-        }
-        .btn-back-user:hover { background-color: #5a6268; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <?php include 'navigation.php'; ?>
-        <div class="page-header-user" style="margin-top:20px;">
-            <h2>Locational Clearances</h2>
-        </div>
+<?php require_once 'header.php'; ?>
 
-        <?php
-        if(isset($_SESSION['message_user_dash_lc'])){
-            echo '<p class="alert alert-success" style="text-align:center;">'.$_SESSION['message_user_dash_lc'].'</p>';
-            unset($_SESSION['message_user_dash_lc']);
-        }
-        if(isset($_SESSION['error_user_dash_lc'])){
-            echo '<p class="alert alert-danger" style="text-align:center;">'.$_SESSION['error_user_dash_lc'].'</p>';
-            unset($_SESSION['error_user_dash_lc']);
-        }
-        ?>
+<style>
+    .user-view-container { width: 90%; margin: 20px auto; padding: 15px; background-color: #fff; border-radius: 8px; }
+    .page-header-user { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .page-header-user h2 { margin: 0; }
+    .btn-back-user {
+        text-decoration: none;
+        background-color: #6c757d;
+        color: white;
+        padding: 8px 15px;
+        border-radius: 4px;
+    }
+    .btn-back-user:hover { background-color: #5a6268; }
+</style>
 
-        <?php if(!empty($locational_clearances_user)): ?>
-        <table>
-            <thead>
-                <tr>
-                    <th>Clearance No.</th>
-                    <th>Applicant Name</th>
-                    <th>Project Type</th>
-                    <th>Date Filed</th>
-                    <th>Expiration Date</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach($locational_clearances_user as $lc): ?>
-                <tr>
-                    <td><?php echo htmlspecialchars($lc['clearance_number']); ?></td>
-                    <td><?php echo htmlspecialchars($lc['applicant_name']); ?></td>
-                    <td><?php echo htmlspecialchars($lc['project_type']); ?></td>
-                    <td><?php echo htmlspecialchars($lc['date_filed']); ?></td>
-                    <td><?php echo htmlspecialchars($lc['expiration_date']); ?></td>
-                    <td class="action-links">
-                        <a href="view_locational.php?id=<?php echo $lc['id']; ?>" title="View Details">View</a>
-                        <a href="print_locational.php?id=<?php echo $lc['id']; ?>" title="Print" target="_blank">Print</a>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-        <!-- Pagination Links -->
-        <div style="margin-top: 20px; text-align: center;">
-            <?php if($total_pages > 1): ?>
-                <?php if($page > 1): ?>
-                    <a href="manage_locational_user.php?page=<?php echo $page - 1; ?>">Previous</a>
-                <?php endif; ?>
+<div class="page-header-user" style="margin-top:20px;">
+    <h2>Locational Clearances</h2>
+</div>
 
-                <?php for($i = 1; $i <= $total_pages; $i++): ?>
-                    <a href="manage_locational_user.php?page=<?php echo $i; ?>" style="<?php if($i == $page) echo 'font-weight:bold;'; ?>"><?php echo $i; ?></a>
-                <?php endfor; ?>
+<?php
+if(isset($_SESSION['message_user_dash_lc'])){
+    echo '<p class="alert alert-success" style="text-align:center;">'.$_SESSION['message_user_dash_lc'].'</p>';
+    unset($_SESSION['message_user_dash_lc']);
+}
+if(isset($_SESSION['error_user_dash_lc'])){
+    echo '<p class="alert alert-danger" style="text-align:center;">'.$_SESSION['error_user_dash_lc'].'</p>';
+    unset($_SESSION['error_user_dash_lc']);
+}
+?>
 
-                <?php if($page < $total_pages): ?>
-                    <a href="manage_locational_user.php?page=<?php echo $page + 1; ?>">Next</a>
-                <?php endif; ?>
-            <?php endif; ?>
-        </div>
-        <?php else: ?>
-             <?php if(!isset($_SESSION['error_user_dash_lc'])): ?>
-                <p class="text-center" style="margin-top:20px;">No locational clearances found.</p>
-            <?php endif; ?>
+<?php if(!empty($locational_clearances_user)): ?>
+<table>
+    <thead>
+        <tr>
+            <th>Clearance No.</th>
+            <th>Applicant Name</th>
+            <th>Project Type</th>
+            <th>Date Filed</th>
+            <th>Expiration Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach($locational_clearances_user as $lc): ?>
+        <tr>
+            <td><?php echo htmlspecialchars($lc['clearance_number']); ?></td>
+            <td><?php echo htmlspecialchars($lc['applicant_name']); ?></td>
+            <td><?php echo htmlspecialchars($lc['project_type']); ?></td>
+            <td><?php echo htmlspecialchars($lc['date_filed']); ?></td>
+            <td><?php echo htmlspecialchars($lc['expiration_date']); ?></td>
+            <td class="action-links">
+                <a href="view_locational.php?id=<?php echo $lc['id']; ?>" title="View Details">View</a>
+                <a href="print_locational.php?id=<?php echo $lc['id']; ?>" title="Print" target="_blank">Print</a>
+            </td>
+        </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+<!-- Pagination Links -->
+<div style="margin-top: 20px; text-align: center;">
+    <?php if($total_pages > 1): ?>
+        <?php if($page > 1): ?>
+            <a href="manage_locational_user.php?page=<?php echo $page - 1; ?>">Previous</a>
         <?php endif; ?>
-    </div>
-</body>
-</html>
+
+        <?php for($i = 1; $i <= $total_pages; $i++): ?>
+            <a href="manage_locational_user.php?page=<?php echo $i; ?>" style="<?php if($i == $page) echo 'font-weight:bold;'; ?>"><?php echo $i; ?></a>
+        <?php endfor; ?>
+
+        <?php if($page < $total_pages): ?>
+            <a href="manage_locational_user.php?page=<?php echo $page + 1; ?>">Next</a>
+        <?php endif; ?>
+    <?php endif; ?>
+</div>
+<?php else: ?>
+     <?php if(!isset($_SESSION['error_user_dash_lc'])): ?>
+        <p class="text-center" style="margin-top:20px;">No locational clearances found.</p>
+    <?php endif; ?>
+<?php endif; ?>
+
+<?php require_once 'footer.php'; ?>

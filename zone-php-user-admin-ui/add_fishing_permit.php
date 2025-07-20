@@ -67,79 +67,71 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 mysqli_close($link);
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Add Fishing Permit</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-        .wrapper { max-width: 700px; margin: 20px auto; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <?php include 'navigation.php'; ?>
-        <div class="wrapper">
-            <h2>Encode New Fishing Structure/Gear Permit</h2>
+<?php require_once 'header.php'; ?>
 
-            <?php if (!empty($errors)): ?>
-            <div class="alert alert-danger">
-                <?php foreach($errors as $error): ?>
-                    <p><?php echo htmlspecialchars($error); ?></p>
-                <?php endforeach; ?>
-            </div>
-            <?php endif; ?>
+<style>
+    .wrapper { max-width: 700px; margin: 20px auto; }
+</style>
 
-            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                <div class="form-group">
-                    <label>Fishing Structure/Gear</label>
-                    <select name="gear_type" class="form-control" required>
-                        <option value="">-- Select Type --</option>
-                        <option value="Taba">TABA</option>
-                        <option value="Bentahan">BENTAHAN</option>
-                        <option value="Fish Cage">FISH CAGE</option>
-                        <option value="Talabahan">TALABAN</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Owner</label>
-                    <input type="text" name="owner_name" class="form-control" required>
-                </div>
-                 <div class="form-group">
-                    <label>Resident of</label>
-                    <input type="text" name="owner_resident_of" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label>Located in</label>
-                    <input type="text" name="location" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label>Date of Issuance</label>
-                    <input type="date" name="issue_date" class="form-control" required>
-                </div>
-                 <div class="form-group">
-                    <label>O.R. No.</label>
-                    <input type="text" name="or_number" class="form-control">
-                </div>
-                 <div class="form-group">
-                    <label>Amount Paid</label>
-                    <input type="number" step="0.01" name="amount_paid" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label>Date Paid</label>
-                    <input type="date" name="date_paid" class="form-control">
-                </div>
-                 <div class="form-group">
-                    <label>Issued at</label>
-                    <input type="text" name="issued_at" class="form-control">
-                </div>
-                <div class="form-group" style="margin-top:20px;">
-                    <input type="submit" class="btn btn-primary" value="Submit Permit">
-                    <a href="<?php echo (isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === true) ? 'manage_fishing_permits.php' : 'manage_fishing_permits_user.php'; ?>" class="btn btn-secondary" style="text-decoration:none;">Cancel</a>
-                </div>
-            </form>
-        </div>
+<div class="wrapper">
+    <h2>Encode New Fishing Structure/Gear Permit</h2>
+
+    <?php if (!empty($errors)): ?>
+    <div class="alert alert-danger">
+        <?php foreach($errors as $error): ?>
+            <p><?php echo htmlspecialchars($error); ?></p>
+        <?php endforeach; ?>
     </div>
-</body>
-</html>
+    <?php endif; ?>
+
+    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+        <div class="form-group">
+            <label>Fishing Structure/Gear</label>
+            <select name="gear_type" class="form-control" required>
+                <option value="">-- Select Type --</option>
+                <option value="Taba">TABA</option>
+                <option value="Bentahan">BENTAHAN</option>
+                <option value="Fish Cage">FISH CAGE</option>
+                <option value="Talabahan">TALABAN</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Owner</label>
+            <input type="text" name="owner_name" class="form-control" required>
+        </div>
+         <div class="form-group">
+            <label>Resident of</label>
+            <input type="text" name="owner_resident_of" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Located in</label>
+            <input type="text" name="location" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label>Date of Issuance</label>
+            <input type="date" name="issue_date" class="form-control" required>
+        </div>
+         <div class="form-group">
+            <label>O.R. No.</label>
+            <input type="text" name="or_number" class="form-control">
+        </div>
+         <div class="form-group">
+            <label>Amount Paid</label>
+            <input type="number" step="0.01" name="amount_paid" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Date Paid</label>
+            <input type="date" name="date_paid" class="form-control">
+        </div>
+         <div class="form-group">
+            <label>Issued at</label>
+            <input type="text" name="issued_at" class="form-control">
+        </div>
+        <div class="form-group" style="margin-top:20px;">
+            <input type="submit" class="btn btn-primary" value="Submit Permit">
+            <a href="<?php echo (isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === true) ? 'manage_fishing_permits.php' : 'manage_fishing_permits_user.php'; ?>" class="btn btn-secondary" style="text-decoration:none;">Cancel</a>
+        </div>
+    </form>
+</div>
+
+<?php require_once 'footer.php'; ?>

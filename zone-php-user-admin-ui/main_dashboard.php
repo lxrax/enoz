@@ -38,95 +38,86 @@ $chart_labels = json_encode(array_column($chart_data, 'issue_month'));
 $chart_values = json_encode(array_column($chart_data, 'count'));
 
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-        .dashboard-card {
-            background-color: #f9f9f9;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .dashboard-card h3 {
-            margin-top: 0;
-            border-bottom: 2px solid #007bff;
-            padding-bottom: 10px;
-        }
-        #chart-card {
-            position: relative;
-            height: 40vh; /* vh is viewport height, adjust as needed */
-            max-height: 350px; /* Set a max height */
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <?php include 'navigation.php'; ?>
+<?php require_once 'header.php'; ?>
 
-        <div class="page-header" style="margin-top: 20px;">
-            <h1>Admin Dashboard</h1>
-        </div>
+<style>
+    .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+    }
+    .dashboard-card {
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .dashboard-card h3 {
+        margin-top: 0;
+        border-bottom: 2px solid #007bff;
+        padding-bottom: 10px;
+    }
+    #chart-card {
+        position: relative;
+        height: 40vh; /* vh is viewport height, adjust as needed */
+        max-height: 350px; /* Set a max height */
+    }
+</style>
 
-        <div class="dashboard-grid">
-            <div class="dashboard-card" id="search-card">
-                <h3>Search Records</h3>
-                <form action="search_results.php" method="get">
-                    <div class="form-group">
-                        <input type="text" name="query" class="form-control" placeholder="Search by name, classification, zone, or location..." required>
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" class="btn btn-primary" value="Search">
-                    </div>
-                </form>
+<div class="page-header" style="margin-top: 20px;">
+    <h1>Admin Dashboard</h1>
+</div>
+
+<div class="dashboard-grid">
+    <div class="dashboard-card" id="search-card">
+        <h3>Search Records</h3>
+        <form action="search_results.php" method="get">
+            <div class="form-group">
+                <input type="text" name="query" class="form-control" placeholder="Search by name, classification, zone, or location..." required>
             </div>
-            <div class="dashboard-card" id="chart-card">
-                <h3>Monthly Issuance Overview (Last 12 Months)</h3>
-                <canvas id="issuanceChart"></canvas>
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary" value="Search">
             </div>
-        </div>
+        </form>
     </div>
+    <div class="dashboard-card" id="chart-card">
+        <h3>Monthly Issuance Overview (Last 12 Months)</h3>
+        <canvas id="issuanceChart"></canvas>
+    </div>
+</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        const ctx = document.getElementById('issuanceChart');
-        const chartLabels = <?php echo $chart_labels; ?>;
-        const chartValues = <?php echo $chart_values; ?>;
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('issuanceChart');
+    const chartLabels = <?php echo $chart_labels; ?>;
+    const chartValues = <?php echo $chart_values; ?>;
 
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: chartLabels,
-                datasets: [{
-                    label: '# of Issuances',
-                    data: chartValues,
-                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            stepSize: 1 // Ensure y-axis increments by whole numbers
-                        }
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: chartLabels,
+            datasets: [{
+                label: '# of Issuances',
+                data: chartValues,
+                backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1 // Ensure y-axis increments by whole numbers
                     }
-                },
-                responsive: true,
-                maintainAspectRatio: false
-            }
-        });
-    </script>
-</body>
-</html>
+                }
+            },
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    });
+</script>
+
+<?php require_once 'footer.php'; ?>

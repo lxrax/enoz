@@ -99,62 +99,54 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 $settings = get_settings($link);
 mysqli_close($link);
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Application Settings</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-        .settings-wrapper { max-width: 800px; margin: 20px auto; }
-        .logo-preview { max-width: 100px; max-height: 100px; border: 1px solid #ddd; padding: 5px; margin-top: 10px; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <?php include 'navigation.php'; ?>
-        <div class="settings-wrapper">
-            <h2>Application Settings</h2>
-            <p>Customize the details that appear on printed certificates and clearances.</p>
+<?php require_once 'header.php'; ?>
 
-            <?php if(!empty($success_msg)): ?>
-                <div class="alert alert-success"><?php echo $success_msg; ?></div>
-            <?php endif; ?>
-            <?php if(!empty($errors)): ?>
-                <div class="alert alert-danger">
-                    <?php foreach($errors as $error): ?>
-                        <p><?php echo $error; ?></p>
-                    <?php endforeach; ?>
-                </div>
-            <?php endif; ?>
+<style>
+    .settings-wrapper { max-width: 800px; margin: 20px auto; }
+    .logo-preview { max-width: 100px; max-height: 100px; border: 1px solid #ddd; padding: 5px; margin-top: 10px; }
+</style>
 
-            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" enctype="multipart/form-data">
-                <div class="form-group">
-                    <label>Province Name</label>
-                    <input type="text" name="province_name" class="form-control" value="<?php echo htmlspecialchars($settings['province_name'] ?? ''); ?>" required>
-                </div>
-                <div class="form-group">
-                    <label>Municipality/City Name</label>
-                    <input type="text" name="municipality_name" class="form-control" value="<?php echo htmlspecialchars($settings['municipality_name'] ?? ''); ?>" required>
-                </div>
-                <div class="form-group">
-                    <label>Default Signatory Name</label>
-                    <input type="text" name="default_signatory_name" class="form-control" value="<?php echo htmlspecialchars($settings['default_signatory_name'] ?? ''); ?>">
-                    <p><small>This name will be pre-filled on new certificates and clearances.</small></p>
-                </div>
-                <hr>
-                 <div class="form-group">
-                    <label>Municipality/City Logo</label>
-                    <input type="file" name="municipality_logo" class="form-control">
-                    <p><small>Current Logo:</small></p>
-                    <img src="<?php echo htmlspecialchars($settings['municipality_logo_path'] ?? ''); ?>?t=<?php echo time(); ?>" alt="Municipality Logo" class="logo-preview">
-                </div>
+<div class="settings-wrapper">
+    <h2>Application Settings</h2>
+    <p>Customize the details that appear on printed certificates and clearances.</p>
 
-                <div class="form-group" style="margin-top:20px;">
-                    <input type="submit" class="btn btn-primary" value="Save Settings">
-                </div>
-            </form>
+    <?php if(!empty($success_msg)): ?>
+        <div class="alert alert-success"><?php echo $success_msg; ?></div>
+    <?php endif; ?>
+    <?php if(!empty($errors)): ?>
+        <div class="alert alert-danger">
+            <?php foreach($errors as $error): ?>
+                <p><?php echo $error; ?></p>
+            <?php endforeach; ?>
         </div>
-    </div>
-</body>
-</html>
+    <?php endif; ?>
+
+    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label>Province Name</label>
+            <input type="text" name="province_name" class="form-control" value="<?php echo htmlspecialchars($settings['province_name'] ?? ''); ?>" required>
+        </div>
+        <div class="form-group">
+            <label>Municipality/City Name</label>
+            <input type="text" name="municipality_name" class="form-control" value="<?php echo htmlspecialchars($settings['municipality_name'] ?? ''); ?>" required>
+        </div>
+        <div class="form-group">
+            <label>Default Signatory Name</label>
+            <input type="text" name="default_signatory_name" class="form-control" value="<?php echo htmlspecialchars($settings['default_signatory_name'] ?? ''); ?>">
+            <p><small>This name will be pre-filled on new certificates and clearances.</small></p>
+        </div>
+        <hr>
+         <div class="form-group">
+            <label>Municipality/City Logo</label>
+            <input type="file" name="municipality_logo" class="form-control">
+            <p><small>Current Logo:</small></p>
+            <img src="<?php echo htmlspecialchars($settings['municipality_logo_path'] ?? ''); ?>?t=<?php echo time(); ?>" alt="Municipality Logo" class="logo-preview">
+        </div>
+
+        <div class="form-group" style="margin-top:20px;">
+            <input type="submit" class="btn btn-primary" value="Save Settings">
+        </div>
+    </form>
+</div>
+
+<?php require_once 'footer.php'; ?>

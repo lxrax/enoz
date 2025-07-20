@@ -45,89 +45,80 @@ if($result = mysqli_query($link, $sql)){
 mysqli_close($link);
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Manage Locational Clearances</title>
-    <link rel="stylesheet" href="style.css">
-    <script>
-        function confirmDeleteLocational(clearanceId) {
-            if (confirm("Are you sure you want to delete this locational clearance? This action cannot be undone.")) {
-                window.location.href = 'delete_locational.php?id=' + clearanceId;
-            }
+<?php require_once 'header.php'; ?>
+
+<script>
+    function confirmDeleteLocational(clearanceId) {
+        if (confirm("Are you sure you want to delete this locational clearance? This action cannot be undone.")) {
+            window.location.href = 'delete_locational.php?id=' + clearanceId;
         }
-    </script>
-</head>
-<body>
-    <div class="container">
-        <?php include 'navigation.php'; ?>
+    }
+</script>
 
-        <div class="page-header" style="margin-top:20px; display:flex; justify-content:space-between; align-items:center;">
-            <h2>Manage Locational Clearances</h2>
-            <a href="add_locational.php" class="btn btn-success" style="background-color: #28a745; border-color: #28a745; color:white; text-decoration:none; padding: 10px 15px; border-radius:5px;">Add New Clearance</a>
-        </div>
+<div class="page-header" style="margin-top:20px; display:flex; justify-content:space-between; align-items:center;">
+    <h2>Manage Locational Clearances</h2>
+    <a href="add_locational.php" class="btn btn-success" style="background-color: #28a745; border-color: #28a745; color:white; text-decoration:none; padding: 10px 15px; border-radius:5px;">Add New Clearance</a>
+</div>
 
-        <?php
-        if(isset($_SESSION['message'])){
-            echo '<p class="alert alert-success" style="text-align:center;">'.$_SESSION['message'].'</p>';
-            unset($_SESSION['message']);
-        }
-        if(isset($_SESSION['error'])){ // Display errors, e.g., from DB query failure
-            echo '<p class="alert alert-danger" style="text-align:center;">'.$_SESSION['error'].'</p>';
-            unset($_SESSION['error']);
-        }
-        ?>
+<?php
+if(isset($_SESSION['message'])){
+    echo '<p class="alert alert-success" style="text-align:center;">'.$_SESSION['message'].'</p>';
+    unset($_SESSION['message']);
+}
+if(isset($_SESSION['error'])){ // Display errors, e.g., from DB query failure
+    echo '<p class="alert alert-danger" style="text-align:center;">'.$_SESSION['error'].'</p>';
+    unset($_SESSION['error']);
+}
+?>
 
-        <?php if(!empty($locational_clearances)): ?>
-        <table>
-            <thead>
-                <tr>
-                    <th>Clearance No.</th>
-                    <th>Applicant Name</th>
-                    <th>Project Name</th>
-                    <th>Date Filed</th>
-                    <th>Expiration Date</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach($locational_clearances as $lc): ?>
-                <tr>
-                    <td><?php echo htmlspecialchars($lc['clearance_number']); ?></td>
-                    <td><?php echo htmlspecialchars($lc['applicant_name']); ?></td>
-                    <td><?php echo htmlspecialchars($lc['project_name']); ?></td>
-                    <td><?php echo htmlspecialchars($lc['date_filed']); ?></td>
-                    <td><?php echo htmlspecialchars($lc['expiration_date']); ?></td>
-                    <td class="action-links">
-                        <a href="view_locational.php?id=<?php echo $lc['id']; ?>" title="View Details">View</a>
-                        <a href="edit_locational.php?id=<?php echo $lc['id']; ?>" title="Edit">Edit</a>
-                        <a href="#" onclick="confirmDeleteLocational(<?php echo $lc['id']; ?>); return false;" class="delete" title="Delete">Delete</a>
-                        <a href="print_locational.php?id=<?php echo $lc['id']; ?>" title="Print" target="_blank">Print</a>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-        <!-- Pagination Links -->
-        <div style="margin-top: 20px; text-align: center;">
-            <?php if($total_pages > 1): ?>
-                <?php if($page > 1): ?>
-                    <a href="manage_locational.php?page=<?php echo $page - 1; ?>">Previous</a>
-                <?php endif; ?>
-
-                <?php for($i = 1; $i <= $total_pages; $i++): ?>
-                    <a href="manage_locational.php?page=<?php echo $i; ?>" style="<?php if($i == $page) echo 'font-weight:bold;'; ?>"><?php echo $i; ?></a>
-                <?php endfor; ?>
-
-                <?php if($page < $total_pages): ?>
-                    <a href="manage_locational.php?page=<?php echo $page + 1; ?>">Next</a>
-                <?php endif; ?>
-            <?php endif; ?>
-        </div>
-        <?php else: ?>
-        <p class="text-center" style="margin-top:20px;">No locational clearances found. <a href="add_locational.php">Add one now</a>.</p>
+<?php if(!empty($locational_clearances)): ?>
+<table>
+    <thead>
+        <tr>
+            <th>Clearance No.</th>
+            <th>Applicant Name</th>
+            <th>Project Name</th>
+            <th>Date Filed</th>
+            <th>Expiration Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach($locational_clearances as $lc): ?>
+        <tr>
+            <td><?php echo htmlspecialchars($lc['clearance_number']); ?></td>
+            <td><?php echo htmlspecialchars($lc['applicant_name']); ?></td>
+            <td><?php echo htmlspecialchars($lc['project_name']); ?></td>
+            <td><?php echo htmlspecialchars($lc['date_filed']); ?></td>
+            <td><?php echo htmlspecialchars($lc['expiration_date']); ?></td>
+            <td class="action-links">
+                <a href="view_locational.php?id=<?php echo $lc['id']; ?>" title="View Details">View</a>
+                <a href="edit_locational.php?id=<?php echo $lc['id']; ?>" title="Edit">Edit</a>
+                <a href="#" onclick="confirmDeleteLocational(<?php echo $lc['id']; ?>); return false;" class="delete" title="Delete">Delete</a>
+                <a href="print_locational.php?id=<?php echo $lc['id']; ?>" title="Print" target="_blank">Print</a>
+            </td>
+        </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+<!-- Pagination Links -->
+<div style="margin-top: 20px; text-align: center;">
+    <?php if($total_pages > 1): ?>
+        <?php if($page > 1): ?>
+            <a href="manage_locational.php?page=<?php echo $page - 1; ?>">Previous</a>
         <?php endif; ?>
-    </div>
-</body>
-</html>
+
+        <?php for($i = 1; $i <= $total_pages; $i++): ?>
+            <a href="manage_locational.php?page=<?php echo $i; ?>" style="<?php if($i == $page) echo 'font-weight:bold;'; ?>"><?php echo $i; ?></a>
+        <?php endfor; ?>
+
+        <?php if($page < $total_pages): ?>
+            <a href="manage_locational.php?page=<?php echo $page + 1; ?>">Next</a>
+        <?php endif; ?>
+    <?php endif; ?>
+</div>
+<?php else: ?>
+<p class="text-center" style="margin-top:20px;">No locational clearances found. <a href="add_locational.php">Add one now</a>.</p>
+<?php endif; ?>
+
+<?php require_once 'footer.php'; ?>

@@ -221,3 +221,85 @@ nav a:hover {
 .text-center {
     text-align: center;
 }
+
+/* Header Styles */
+.main-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.header-logo {
+    height: 80px; /* Adjust as needed */
+    margin-right: 20px;
+}
+
+.header-text {
+    text-align: center;
+}
+
+.header-text h1, .header-text h2, .header-text h3 {
+    margin: 0;
+    line-height: 1.2;
+}
+
+.header-text h1 {
+    font-size: 1.2em;
+    font-weight: normal;
+}
+
+.header-text h2 {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.header-text h3 {
+    font-size: 1.2em;
+    font-weight: normal;
+}
+
+/* Footer Styles */
+.main-footer {
+    text-align: center;
+    padding: 20px;
+    margin-top: 20px;
+    background-color: #333;
+    color: white;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.main-footer a {
+    color: #00bfff; /* Deep sky blue, or any color you prefer */
+    text-decoration: none;
+}
+
+.main-footer a:hover {
+    text-decoration: underline;
+}
+
+/* Adjust body to be a column flex container */
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+/* The main container for content should not be centered by default anymore */
+.container {
+    width: 90%; /* Or your preferred width */
+    max-width: 1200px;
+    margin: 20px 0; /* Vertical margin */
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    flex-grow: 1; /* Allows the container to grow and push the footer down */
+}

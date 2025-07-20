@@ -186,105 +186,96 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 $zoning_classifications = ['Residential', 'Commercial', 'Agro-Industrial', 'Agricultural', 'Institutional'];
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Add Zoning Certificate</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .form-group { margin-bottom: 0; } /* Remove default margin if using grid gap */
-        .full-width { grid-column: 1 / -1; }
-        .wrapper { max-width: 800px; margin: 20px auto; padding:20px; }
-        .btn-secondary { background-color: #6c757d; border-color: #6c757d; color:white; text-decoration:none; padding: 0.375rem 0.75rem;}
-    </style>
-</head>
-<body>
-    <div class="container">
-        <?php include 'navigation.php'; ?>
+<?php require_once 'header.php'; ?>
 
-        <div class="wrapper">
-            <h2>Add New Zoning Certificate</h2>
-            <p>Please fill this form to add a new zoning certificate.</p>
+<style>
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .form-group { margin-bottom: 0; } /* Remove default margin if using grid gap */
+    .full-width { grid-column: 1 / -1; }
+    .wrapper { max-width: 800px; margin: 20px auto; padding:20px; }
+    .btn-secondary { background-color: #6c757d; border-color: #6c757d; color:white; text-decoration:none; padding: 0.375rem 0.75rem;}
+</style>
 
-            <?php
-            if(!empty($_SESSION['error'])){ // Display general errors
-                echo '<div class="alert alert-danger">' . $_SESSION['error'] . '</div>';
-                unset($_SESSION['error']);
-            }
-            // Display specific form validation errors if any
-            if(!empty($errors) && is_array($errors)){
-                echo '<div class="alert alert-danger">';
-                foreach($errors as $field_error){
-                    echo htmlspecialchars($field_error) . '<br>';
-                }
-                echo '</div>';
-            }
-            ?>
+<div class="wrapper">
+    <h2>Add New Zoning Certificate</h2>
+    <p>Please fill this form to add a new zoning certificate.</p>
 
-            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>Applicant's Name</label>
-                        <input type="text" name="applicant_name" class="form-control <?php echo (!empty($errors['applicant_name'])) ? 'is-invalid' : ''; ?>" value="<?php echo htmlspecialchars($applicant_name); ?>" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Owner's Name</label>
-                        <input type="text" name="owner_name" class="form-control <?php echo (!empty($errors['owner_name'])) ? 'is-invalid' : ''; ?>" value="<?php echo htmlspecialchars($owner_name); ?>" required>
-                    </div>
-                    <div class="form-group full-width">
-                        <label>Address</label>
-                        <textarea name="address" class="form-control <?php echo (!empty($errors['address'])) ? 'is-invalid' : ''; ?>" required><?php echo htmlspecialchars($address); ?></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Date Filed</label>
-                        <input type="date" name="date_filed" class="form-control <?php echo (!empty($errors['date_filed'])) ? 'is-invalid' : ''; ?>" value="<?php echo htmlspecialchars($date_filed); ?>" required>
-                    </div>
-                     <div class="form-group">
-                        <label>Tax Declaration No.</label>
-                        <input type="text" name="tax_declaration" class="form-control" value="<?php echo htmlspecialchars($tax_declaration); ?>">
-                    </div>
-                    <div class="form-group">
-                        <label>Lot No.</label>
-                        <input type="text" name="lot_no" class="form-control" value="">
-                    </div>
-                    <div class="form-group">
-                        <label>Land Area (sqm)</label>
-                        <input type="text" name="land_area" class="form-control" value="">
-                    </div>
-                    <div class="form-group full-width">
-                        <label>Location of Project</label>
-                        <textarea name="project_location" class="form-control <?php echo (!empty($errors['project_location'])) ? 'is-invalid' : ''; ?>" required><?php echo htmlspecialchars($project_location); ?></textarea>
-                    </div>
-                    <div class="form-group full-width">
-                        <label>Purpose</label>
-                        <input type="text" name="purpose" class="form-control" value="<?php echo htmlspecialchars($purpose); ?>">
-                    </div>
-                    <div class="form-group">
-                        <label>Zoning Classification</label>
-                        <select name="zoning_classification" class="form-control <?php echo (!empty($errors['zoning_classification'])) ? 'is-invalid' : ''; ?>" required>
-                            <option value="">Select Classification...</option>
-                            <?php foreach($zoning_classifications as $zc): ?>
-                            <option value="<?php echo $zc; ?>" <?php echo ($zoning_classification == $zc) ? 'selected' : ''; ?>><?php echo $zc; ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Fees Paid (PHP)</label>
-                        <input type="number" step="0.01" name="fees_paid" class="form-control <?php echo (!empty($errors['fees_paid'])) ? 'is-invalid' : ''; ?>" value="<?php echo htmlspecialchars($fees_paid); ?>" required>
-                    </div>
-                    <div class="form-group">
-                        <label>O.R. Number</label>
-                        <input type="text" name="or_number" class="form-control <?php echo (!empty($errors['or_number'])) ? 'is-invalid' : ''; ?>" value="<?php echo htmlspecialchars($or_number); ?>" required>
-                    </div>
-                </div>
-                <div class="form-group full-width" style="margin-top:20px;">
-                    <input type="submit" class="btn btn-primary" value="Submit">
-                    <a href="<?php echo (isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === true) ? 'manage_zoning.php' : 'manage_zoning_user.php'; ?>" class="btn btn-secondary">Cancel</a>
-                </div>
-            </form>
+    <?php
+    if(!empty($_SESSION['error'])){ // Display general errors
+        echo '<div class="alert alert-danger">' . $_SESSION['error'] . '</div>';
+        unset($_SESSION['error']);
+    }
+    // Display specific form validation errors if any
+    if(!empty($errors) && is_array($errors)){
+        echo '<div class="alert alert-danger">';
+        foreach($errors as $field_error){
+            echo htmlspecialchars($field_error) . '<br>';
+        }
+        echo '</div>';
+    }
+    ?>
+
+    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+        <div class="form-grid">
+            <div class="form-group">
+                <label>Applicant's Name</label>
+                <input type="text" name="applicant_name" class="form-control <?php echo (!empty($errors['applicant_name'])) ? 'is-invalid' : ''; ?>" value="<?php echo htmlspecialchars($applicant_name); ?>" required>
+            </div>
+            <div class="form-group">
+                <label>Owner's Name</label>
+                <input type="text" name="owner_name" class="form-control <?php echo (!empty($errors['owner_name'])) ? 'is-invalid' : ''; ?>" value="<?php echo htmlspecialchars($owner_name); ?>" required>
+            </div>
+            <div class="form-group full-width">
+                <label>Address</label>
+                <textarea name="address" class="form-control <?php echo (!empty($errors['address'])) ? 'is-invalid' : ''; ?>" required><?php echo htmlspecialchars($address); ?></textarea>
+            </div>
+            <div class="form-group">
+                <label>Date Filed</label>
+                <input type="date" name="date_filed" class="form-control <?php echo (!empty($errors['date_filed'])) ? 'is-invalid' : ''; ?>" value="<?php echo htmlspecialchars($date_filed); ?>" required>
+            </div>
+             <div class="form-group">
+                <label>Tax Declaration No.</label>
+                <input type="text" name="tax_declaration" class="form-control" value="<?php echo htmlspecialchars($tax_declaration); ?>">
+            </div>
+            <div class="form-group">
+                <label>Lot No.</label>
+                <input type="text" name="lot_no" class="form-control" value="">
+            </div>
+            <div class="form-group">
+                <label>Land Area (sqm)</label>
+                <input type="text" name="land_area" class="form-control" value="">
+            </div>
+            <div class="form-group full-width">
+                <label>Location of Project</label>
+                <textarea name="project_location" class="form-control <?php echo (!empty($errors['project_location'])) ? 'is-invalid' : ''; ?>" required><?php echo htmlspecialchars($project_location); ?></textarea>
+            </div>
+            <div class="form-group full-width">
+                <label>Purpose</label>
+                <input type="text" name="purpose" class="form-control" value="<?php echo htmlspecialchars($purpose); ?>">
+            </div>
+            <div class="form-group">
+                <label>Zoning Classification</label>
+                <select name="zoning_classification" class="form-control <?php echo (!empty($errors['zoning_classification'])) ? 'is-invalid' : ''; ?>" required>
+                    <option value="">Select Classification...</option>
+                    <?php foreach($zoning_classifications as $zc): ?>
+                    <option value="<?php echo $zc; ?>" <?php echo ($zoning_classification == $zc) ? 'selected' : ''; ?>><?php echo $zc; ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Fees Paid (PHP)</label>
+                <input type="number" step="0.01" name="fees_paid" class="form-control <?php echo (!empty($errors['fees_paid'])) ? 'is-invalid' : ''; ?>" value="<?php echo htmlspecialchars($fees_paid); ?>" required>
+            </div>
+            <div class="form-group">
+                <label>O.R. Number</label>
+                <input type="text" name="or_number" class="form-control <?php echo (!empty($errors['or_number'])) ? 'is-invalid' : ''; ?>" value="<?php echo htmlspecialchars($or_number); ?>" required>
+            </div>
         </div>
-    </div>
-</body>
-</html>
+        <div class="form-group full-width" style="margin-top:20px;">
+            <input type="submit" class="btn btn-primary" value="Submit">
+            <a href="<?php echo (isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === true) ? 'manage_zoning.php' : 'manage_zoning_user.php'; ?>" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+
+<?php require_once 'footer.php'; ?>

@@ -97,80 +97,72 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 mysqli_close($link);
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Edit Fishing Permit</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-        .wrapper { max-width: 700px; margin: 20px auto; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <?php include 'navigation.php'; ?>
-        <div class="wrapper">
-            <h2>Edit Fishing Structure/Gear Permit</h2>
+<?php require_once 'header.php'; ?>
 
-            <?php if (!empty($errors)): ?>
-            <div class="alert alert-danger">
-                <?php foreach($errors as $error): ?>
-                    <p><?php echo htmlspecialchars($error); ?></p>
-                <?php endforeach; ?>
-            </div>
-            <?php endif; ?>
+<style>
+    .wrapper { max-width: 700px; margin: 20px auto; }
+</style>
 
-            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                <input type="hidden" name="id" value="<?php echo $permit_id; ?>">
-                <div class="form-group">
-                    <label>Fishing Structure/Gear</label>
-                    <select name="gear_type" class="form-control" required>
-                        <option value="">-- Select Type --</option>
-                        <option value="Taba" <?php if($gear_type == 'Taba') echo 'selected'; ?>>Taba</option>
-                        <option value="Bentahan" <?php if($gear_type == 'Bentahan') echo 'selected'; ?>>Bentahan</option>
-                        <option value="Fish Cage" <?php if($gear_type == 'Fish Cage') echo 'selected'; ?>>Fish Cage</option>
-                        <option value="Talabahan" <?php if($gear_type == 'Talabahan') echo 'selected'; ?>>Talabahan</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Owner</label>
-                    <input type="text" name="owner_name" class="form-control" value="<?php echo htmlspecialchars($owner_name); ?>" required>
-                </div>
-                 <div class="form-group">
-                    <label>Resident of</label>
-                    <input type="text" name="owner_resident_of" class="form-control" value="<?php echo htmlspecialchars($owner_resident_of); ?>">
-                </div>
-                <div class="form-group">
-                    <label>Located in</label>
-                    <input type="text" name="location" class="form-control" value="<?php echo htmlspecialchars($location); ?>" required>
-                </div>
-                <div class="form-group">
-                    <label>Date of Issuance</label>
-                    <input type="date" name="issue_date" class="form-control" value="<?php echo htmlspecialchars($issue_date); ?>" required>
-                </div>
-                 <div class="form-group">
-                    <label>O.R. No.</label>
-                    <input type="text" name="or_number" class="form-control" value="<?php echo htmlspecialchars($or_number); ?>">
-                </div>
-                 <div class="form-group">
-                    <label>Amount Paid</label>
-                    <input type="number" step="0.01" name="amount_paid" class="form-control" value="<?php echo htmlspecialchars($amount_paid); ?>">
-                </div>
-                <div class="form-group">
-                    <label>Date Paid</label>
-                    <input type="date" name="date_paid" class="form-control" value="<?php echo htmlspecialchars($date_paid); ?>">
-                </div>
-                 <div class="form-group">
-                    <label>Issued at</label>
-                    <input type="text" name="issued_at" class="form-control" value="<?php echo htmlspecialchars($issued_at); ?>">
-                </div>
-                <div class="form-group" style="margin-top:20px;">
-                    <input type="submit" class="btn btn-primary" value="Update Permit">
-                    <a href="manage_fishing_permits.php" class="btn btn-secondary" style="text-decoration:none;">Cancel</a>
-                </div>
-            </form>
-        </div>
+<div class="wrapper">
+    <h2>Edit Fishing Structure/Gear Permit</h2>
+
+    <?php if (!empty($errors)): ?>
+    <div class="alert alert-danger">
+        <?php foreach($errors as $error): ?>
+            <p><?php echo htmlspecialchars($error); ?></p>
+        <?php endforeach; ?>
     </div>
-</body>
-</html>
+    <?php endif; ?>
+
+    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+        <input type="hidden" name="id" value="<?php echo $permit_id; ?>">
+        <div class="form-group">
+            <label>Fishing Structure/Gear</label>
+            <select name="gear_type" class="form-control" required>
+                <option value="">-- Select Type --</option>
+                <option value="Taba" <?php if($gear_type == 'Taba') echo 'selected'; ?>>Taba</option>
+                <option value="Bentahan" <?php if($gear_type == 'Bentahan') echo 'selected'; ?>>Bentahan</option>
+                <option value="Fish Cage" <?php if($gear_type == 'Fish Cage') echo 'selected'; ?>>Fish Cage</option>
+                <option value="Talabahan" <?php if($gear_type == 'Talabahan') echo 'selected'; ?>>Talabahan</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Owner</label>
+            <input type="text" name="owner_name" class="form-control" value="<?php echo htmlspecialchars($owner_name); ?>" required>
+        </div>
+         <div class="form-group">
+            <label>Resident of</label>
+            <input type="text" name="owner_resident_of" class="form-control" value="<?php echo htmlspecialchars($owner_resident_of); ?>">
+        </div>
+        <div class="form-group">
+            <label>Located in</label>
+            <input type="text" name="location" class="form-control" value="<?php echo htmlspecialchars($location); ?>" required>
+        </div>
+        <div class="form-group">
+            <label>Date of Issuance</label>
+            <input type="date" name="issue_date" class="form-control" value="<?php echo htmlspecialchars($issue_date); ?>" required>
+        </div>
+         <div class="form-group">
+            <label>O.R. No.</label>
+            <input type="text" name="or_number" class="form-control" value="<?php echo htmlspecialchars($or_number); ?>">
+        </div>
+         <div class="form-group">
+            <label>Amount Paid</label>
+            <input type="number" step="0.01" name="amount_paid" class="form-control" value="<?php echo htmlspecialchars($amount_paid); ?>">
+        </div>
+        <div class="form-group">
+            <label>Date Paid</label>
+            <input type="date" name="date_paid" class="form-control" value="<?php echo htmlspecialchars($date_paid); ?>">
+        </div>
+         <div class="form-group">
+            <label>Issued at</label>
+            <input type="text" name="issued_at" class="form-control" value="<?php echo htmlspecialchars($issued_at); ?>">
+        </div>
+        <div class="form-group" style="margin-top:20px;">
+            <input type="submit" class="btn btn-primary" value="Update Permit">
+            <a href="manage_fishing_permits.php" class="btn btn-secondary" style="text-decoration:none;">Cancel</a>
+        </div>
+    </form>
+</div>
+
+<?php require_once 'footer.php'; ?>

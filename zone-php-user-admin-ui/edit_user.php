@@ -106,55 +106,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Edit User</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="container">
-        <?php include 'navigation.php'; ?>
-        <div class="wrapper" style="max-width: 600px; margin: 20px auto;">
-            <h2>Edit User: <?php echo htmlspecialchars($username); ?></h2>
-            <p>Modify user details below. Leave password fields blank to keep the current password.</p>
+<?php require_once 'header.php'; ?>
 
-            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                <input type="hidden" name="id" value="<?php echo $user_id; ?>">
-                <input type="hidden" name="username" value="<?php echo htmlspecialchars($username); ?>">
+<div class="wrapper" style="max-width: 600px; margin: 20px auto;">
+    <h2>Edit User: <?php echo htmlspecialchars($username); ?></h2>
+    <p>Modify user details below. Leave password fields blank to keep the current password.</p>
 
-                <div class="form-group">
-                    <label>Username</label>
-                    <input type="text" name="username_display" class="form-control" value="<?php echo htmlspecialchars($username); ?>" readonly style="background-color:#e9ecef;">
-                </div>
+    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+        <input type="hidden" name="id" value="<?php echo $user_id; ?>">
+        <input type="hidden" name="username" value="<?php echo htmlspecialchars($username); ?>">
 
-                <div class="form-group">
-                    <label>New Password</label>
-                    <input type="password" name="password" class="form-control <?php echo (!empty($password_err)) ? 'is-invalid' : ''; ?>" value="">
-                    <span class="invalid-feedback"><?php echo $password_err; ?></span>
-                </div>
-
-                <div class="form-group">
-                    <label>Confirm New Password</label>
-                    <input type="password" name="confirm_password" class="form-control <?php echo (!empty($confirm_password_err)) ? 'is-invalid' : ''; ?>" value="">
-                    <span class="invalid-feedback"><?php echo $confirm_password_err; ?></span>
-                </div>
-
-                <div class="form-group">
-                    <label for="is_admin_checkbox">
-                        <input type="checkbox" name="is_admin" id="is_admin_checkbox" value="1" <?php echo ($is_admin == 1) ? 'checked' : ''; ?>>
-                        Make this user an Administrator
-                    </label>
-                </div>
-
-                <div class="form-group">
-                    <input type="submit" class="btn btn-primary" value="Update User">
-                    <a href="admin_dashboard.php" class="btn btn-secondary" style="background-color: #6c757d; color:white; text-decoration:none;">Cancel</a>
-                </div>
-            </form>
+        <div class="form-group">
+            <label>Username</label>
+            <input type="text" name="username_display" class="form-control" value="<?php echo htmlspecialchars($username); ?>" readonly style="background-color:#e9ecef;">
         </div>
-    </div>
-</body>
-</html>
+
+        <div class="form-group">
+            <label>New Password</label>
+            <input type="password" name="password" class="form-control <?php echo (!empty($password_err)) ? 'is-invalid' : ''; ?>" value="">
+            <span class="invalid-feedback"><?php echo $password_err; ?></span>
+        </div>
+
+        <div class="form-group">
+            <label>Confirm New Password</label>
+            <input type="password" name="confirm_password" class="form-control <?php echo (!empty($confirm_password_err)) ? 'is-invalid' : ''; ?>" value="">
+            <span class="invalid-feedback"><?php echo $confirm_password_err; ?></span>
+        </div>
+
+        <div class="form-group">
+            <label for="is_admin_checkbox">
+                <input type="checkbox" name="is_admin" id="is_admin_checkbox" value="1" <?php echo ($is_admin == 1) ? 'checked' : ''; ?>>
+                Make this user an Administrator
+            </label>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary" value="Update User">
+            <a href="admin_dashboard.php" class="btn btn-secondary" style="background-color: #6c757d; color:white; text-decoration:none;">Cancel</a>
+        </div>
+    </form>
+</div>
+
+<?php require_once 'footer.php'; ?>
 <?php mysqli_close($link); ?>

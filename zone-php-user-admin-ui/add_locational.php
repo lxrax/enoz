@@ -134,147 +134,139 @@ $condition_texts = [
 ];
 
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Add Locational Clearance</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-        .wrapper { max-width: 900px; margin: 20px auto; }
-        .form-container { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .form-column { display: flex; flex-direction: column; gap: 15px; }
-        .form-column:first-child {
-            padding-right: 20px;
-            border-right: 1px solid #ddd;
+<?php require_once 'header.php'; ?>
+
+<style>
+    .wrapper { max-width: 900px; margin: 20px auto; }
+    .form-container { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .form-column { display: flex; flex-direction: column; gap: 15px; }
+    .form-column:first-child {
+        padding-right: 20px;
+        border-right: 1px solid #ddd;
+    }
+    .full-width { grid-column: 1 / -1; }
+</style>
+<script>
+    function toggleAllConditions(source) {
+        const checkboxes = document.querySelectorAll('.condition-checkbox');
+        for (let i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].checked = source.checked;
         }
-        .full-width { grid-column: 1 / -1; }
-    </style>
-    <script>
-        function toggleAllConditions(source) {
-            const checkboxes = document.querySelectorAll('.condition-checkbox');
-            for (let i = 0; i < checkboxes.length; i++) {
-                checkboxes[i].checked = source.checked;
-            }
-        }
-    </script>
-</head>
-<body>
-    <div class="container">
-        <?php include 'navigation.php'; ?>
-        <div class="wrapper">
-            <h2>Add New Locational Clearance</h2>
+    }
+</script>
 
-            <?php if (!empty($errors)): ?>
-            <div class="alert alert-danger">
-                <?php foreach($errors as $error): ?><p><?php echo htmlspecialchars($error); ?></p><?php endforeach; ?>
-            </div>
-            <?php endif; ?>
+<div class="wrapper">
+    <h2>Add New Locational Clearance</h2>
 
-            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" id="locationalForm">
-                <div class="form-group">
-                    <label>Date Filed:</label>
-                    <input type="date" name="date_filed" class="form-control" required>
-                </div>
-                <hr>
-                <div class="form-container">
-                    <!-- Column 1 -->
-                    <div class="form-column">
-                        <div class="form-group">
-                            <label>APPLICANT:</label>
-                            <input type="text" name="applicant_name" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label>ADDRESS:</label>
-                            <input type="text" name="applicant_address" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label>NAME OF PROJECT:</label>
-                            <input type="text" name="project_name" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label>RIGHT OVER LAND:</label>
-                            <input type="text" name="right_over_land" class="form-control">
-                        </div>
-                    </div>
-                    <!-- Column 2 -->
-                    <div class="form-column">
-                        <div class="form-group">
-                            <label>NAME OF DEVELOPER:</label>
-                            <input type="text" name="developer_name" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label>ADDRESS:</label>
-                            <input type="text" name="developer_address" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label>PROJECT LOCATION:</label>
-                            <input type="text" name="project_location" class="form-control" required>
-                        </div>
-                        <div style="display:flex; gap:10px;">
-                            <div class="form-group" style="flex:1;">
-                                <label>LAND AREA:</label>
-                                <input type="text" name="land_area" class="form-control">
-                            </div>
-                            <div class="form-group" style="flex:1;">
-                                <label>BUILDING AREA:</label>
-                                <input type="text" name="building_area" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group full-width" style="margin-top:20px;">
-                    <label>DECISION:</label>
-                    <select name="decision" class="form-control">
-                        <option value="Granted">Granted</option>
-                        <option value="Denied">Denied</option>
-                        <option value="Appeal">Appeal</option>
-                        <option value="Other Consideration">Other Consideration</option>
-                    </select>
-                </div>
-
-                <fieldset class="conditions-fieldset full-width" style="margin-top:20px;">
-                    <legend>Conditions</legend>
-                    <div class="condition-item">
-                        <input type="checkbox" id="tick_all_conditions" onclick="toggleAllConditions(this)">
-                        <label for="tick_all_conditions"><strong>Tick/Untick All</strong></label>
-                    </div>
-                    <hr>
-                    <?php for ($i = 1; $i <= 10; $i++): ?>
-                        <div class="condition-item"><input type="checkbox" class="condition-checkbox" name="condition<?php echo $i; ?>" value="1"> <label><?php echo htmlspecialchars($condition_texts[$i] ?? 'Condition ' . $i); ?></label></div>
-                    <?php endfor; ?>
-                </fieldset>
-
-                 <div class="form-container" style="margin-top:20px;">
-                    <div class="form-column">
-                        <div class="form-group">
-                            <label>O.R. No.</label>
-                            <input type="text" name="or_number" class="form-control">
-                        </div>
-                         <div class="form-group">
-                            <label>Amount Paid</label>
-                            <input type="number" step="0.01" name="amount_paid" class="form-control">
-                        </div>
-                    </div>
-                    <div class="form-column">
-                        <div class="form-group">
-                            <label>Date Paid</label>
-                            <input type="date" name="date_paid" class="form-control">
-                        </div>
-                         <div class="form-group">
-                            <label>Issued at</label>
-                            <input type="text" name="issued_at" class="form-control">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group full-width" style="margin-top:20px;">
-                    <input type="submit" class="btn btn-primary" value="Submit">
-                    <a href="manage_locational.php" class="btn btn-secondary" style="text-decoration:none;">Cancel</a>
-                </div>
-            </form>
-        </div>
+    <?php if (!empty($errors)): ?>
+    <div class="alert alert-danger">
+        <?php foreach($errors as $error): ?><p><?php echo htmlspecialchars($error); ?></p><?php endforeach; ?>
     </div>
-</body>
-</html>
+    <?php endif; ?>
+
+    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" id="locationalForm">
+        <div class="form-group">
+            <label>Date Filed:</label>
+            <input type="date" name="date_filed" class="form-control" required>
+        </div>
+        <hr>
+        <div class="form-container">
+            <!-- Column 1 -->
+            <div class="form-column">
+                <div class="form-group">
+                    <label>APPLICANT:</label>
+                    <input type="text" name="applicant_name" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>ADDRESS:</label>
+                    <input type="text" name="applicant_address" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>NAME OF PROJECT:</label>
+                    <input type="text" name="project_name" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>RIGHT OVER LAND:</label>
+                    <input type="text" name="right_over_land" class="form-control">
+                </div>
+            </div>
+            <!-- Column 2 -->
+            <div class="form-column">
+                <div class="form-group">
+                    <label>NAME OF DEVELOPER:</label>
+                    <input type="text" name="developer_name" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>ADDRESS:</label>
+                    <input type="text" name="developer_address" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>PROJECT LOCATION:</label>
+                    <input type="text" name="project_location" class="form-control" required>
+                </div>
+                <div style="display:flex; gap:10px;">
+                    <div class="form-group" style="flex:1;">
+                        <label>LAND AREA:</label>
+                        <input type="text" name="land_area" class="form-control">
+                    </div>
+                    <div class="form-group" style="flex:1;">
+                        <label>BUILDING AREA:</label>
+                        <input type="text" name="building_area" class="form-control">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group full-width" style="margin-top:20px;">
+            <label>DECISION:</label>
+            <select name="decision" class="form-control">
+                <option value="Granted">Granted</option>
+                <option value="Denied">Denied</option>
+                <option value="Appeal">Appeal</option>
+                <option value="Other Consideration">Other Consideration</option>
+            </select>
+        </div>
+
+        <fieldset class="conditions-fieldset full-width" style="margin-top:20px;">
+            <legend>Conditions</legend>
+            <div class="condition-item">
+                <input type="checkbox" id="tick_all_conditions" onclick="toggleAllConditions(this)">
+                <label for="tick_all_conditions"><strong>Tick/Untick All</strong></label>
+            </div>
+            <hr>
+            <?php for ($i = 1; $i <= 10; $i++): ?>
+                <div class="condition-item"><input type="checkbox" class="condition-checkbox" name="condition<?php echo $i; ?>" value="1"> <label><?php echo htmlspecialchars($condition_texts[$i] ?? 'Condition ' . $i); ?></label></div>
+            <?php endfor; ?>
+        </fieldset>
+
+         <div class="form-container" style="margin-top:20px;">
+            <div class="form-column">
+                <div class="form-group">
+                    <label>O.R. No.</label>
+                    <input type="text" name="or_number" class="form-control">
+                </div>
+                 <div class="form-group">
+                    <label>Amount Paid</label>
+                    <input type="number" step="0.01" name="amount_paid" class="form-control">
+                </div>
+            </div>
+            <div class="form-column">
+                <div class="form-group">
+                    <label>Date Paid</label>
+                    <input type="date" name="date_paid" class="form-control">
+                </div>
+                 <div class="form-group">
+                    <label>Issued at</label>
+                    <input type="text" name="issued_at" class="form-control">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group full-width" style="margin-top:20px;">
+            <input type="submit" class="btn btn-primary" value="Submit">
+            <a href="manage_locational.php" class="btn btn-secondary" style="text-decoration:none;">Cancel</a>
+        </div>
+    </form>
+</div>
+
+<?php require_once 'footer.php'; ?>

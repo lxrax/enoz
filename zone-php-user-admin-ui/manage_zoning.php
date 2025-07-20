@@ -43,87 +43,78 @@ if($result = mysqli_query($link, $sql)){
 mysqli_close($link);
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Manage Zoning Certificates</title>
-    <link rel="stylesheet" href="style.css">
-    <script>
-        function confirmDelete(certificateId) {
-            if (confirm("Are you sure you want to delete this zoning certificate? This action cannot be undone.")) {
-                window.location.href = 'delete_zoning.php?id=' + certificateId;
-            }
+<?php require_once 'header.php'; ?>
+
+<script>
+    function confirmDelete(certificateId) {
+        if (confirm("Are you sure you want to delete this zoning certificate? This action cannot be undone.")) {
+            window.location.href = 'delete_zoning.php?id=' + certificateId;
         }
-    </script>
-</head>
-<body>
-    <div class="container">
-        <?php include 'navigation.php'; ?>
+    }
+</script>
 
-        <div class="page-header" style="margin-top:20px; display:flex; justify-content:space-between; align-items:center;">
-            <h2>Manage Zoning Certificates</h2>
-            <a href="add_zoning.php" class="btn btn-success" style="background-color: #28a745; border-color: #28a745; color:white; text-decoration:none; padding: 10px 15px; border-radius:5px;">Add New Certificate</a>
-        </div>
+<div class="page-header" style="margin-top:20px; display:flex; justify-content:space-between; align-items:center;">
+    <h2>Manage Zoning Certificates</h2>
+    <a href="add_zoning.php" class="btn btn-success" style="background-color: #28a745; border-color: #28a745; color:white; text-decoration:none; padding: 10px 15px; border-radius:5px;">Add New Certificate</a>
+</div>
 
-        <?php
-        if(isset($_SESSION['message'])){
-            echo '<p class="alert alert-success" style="text-align:center;">'.$_SESSION['message'].'</p>';
-            unset($_SESSION['message']);
-        }
-        if(isset($_SESSION['error'])){
-            echo '<p class="alert alert-danger" style="text-align:center;">'.$_SESSION['error'].'</p>';
-            unset($_SESSION['error']);
-        }
-        ?>
+<?php
+if(isset($_SESSION['message'])){
+    echo '<p class="alert alert-success" style="text-align:center;">'.$_SESSION['message'].'</p>';
+    unset($_SESSION['message']);
+}
+if(isset($_SESSION['error'])){
+    echo '<p class="alert alert-danger" style="text-align:center;">'.$_SESSION['error'].'</p>';
+    unset($_SESSION['error']);
+}
+?>
 
-        <?php if(!empty($zoning_certificates)): ?>
-        <table>
-            <thead>
-                <tr>
-                    <th>Cert. No.</th>
-                    <th>Applicant Name</th>
-                    <th>Date Filed</th>
-                    <th>Expiration Date</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach($zoning_certificates as $cert): ?>
-                <tr>
-                    <td><?php echo htmlspecialchars($cert['certificate_number']); ?></td>
-                    <td><?php echo htmlspecialchars($cert['applicant_name']); ?></td>
-                    <td><?php echo htmlspecialchars($cert['date_filed']); ?></td>
-                    <td><?php echo htmlspecialchars($cert['expiration_date']); ?></td>
-                    <td class="action-links">
-                        <a href="view_zoning.php?id=<?php echo $cert['id']; ?>" title="View Details">View</a>
-                        <a href="edit_zoning.php?id=<?php echo $cert['id']; ?>" title="Edit">Edit</a>
-                        <a href="#" onclick="confirmDelete(<?php echo $cert['id']; ?>); return false;" class="delete" title="Delete">Delete</a>
-                        <a href="print_zoning.php?id=<?php echo $cert['id']; ?>" title="Print" target="_blank">Print</a>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-        <!-- Pagination Links -->
-        <div style="margin-top: 20px; text-align: center;">
-            <?php if($total_pages > 1): ?>
-                <?php if($page > 1): ?>
-                    <a href="manage_zoning.php?page=<?php echo $page - 1; ?>">Previous</a>
-                <?php endif; ?>
-
-                <?php for($i = 1; $i <= $total_pages; $i++): ?>
-                    <a href="manage_zoning.php?page=<?php echo $i; ?>" style="<?php if($i == $page) echo 'font-weight:bold;'; ?>"><?php echo $i; ?></a>
-                <?php endfor; ?>
-
-                <?php if($page < $total_pages): ?>
-                    <a href="manage_zoning.php?page=<?php echo $page + 1; ?>">Next</a>
-                <?php endif; ?>
-            <?php endif; ?>
-        </div>
-        <?php else: ?>
-        <p class="text-center" style="margin-top:20px;">No zoning certificates found. <a href="add_zoning.php">Add one now</a>.</p>
+<?php if(!empty($zoning_certificates)): ?>
+<table>
+    <thead>
+        <tr>
+            <th>Cert. No.</th>
+            <th>Applicant Name</th>
+            <th>Date Filed</th>
+            <th>Expiration Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach($zoning_certificates as $cert): ?>
+        <tr>
+            <td><?php echo htmlspecialchars($cert['certificate_number']); ?></td>
+            <td><?php echo htmlspecialchars($cert['applicant_name']); ?></td>
+            <td><?php echo htmlspecialchars($cert['date_filed']); ?></td>
+            <td><?php echo htmlspecialchars($cert['expiration_date']); ?></td>
+            <td class="action-links">
+                <a href="view_zoning.php?id=<?php echo $cert['id']; ?>" title="View Details">View</a>
+                <a href="edit_zoning.php?id=<?php echo $cert['id']; ?>" title="Edit">Edit</a>
+                <a href="#" onclick="confirmDelete(<?php echo $cert['id']; ?>); return false;" class="delete" title="Delete">Delete</a>
+                <a href="print_zoning.php?id=<?php echo $cert['id']; ?>" title="Print" target="_blank">Print</a>
+            </td>
+        </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+<!-- Pagination Links -->
+<div style="margin-top: 20px; text-align: center;">
+    <?php if($total_pages > 1): ?>
+        <?php if($page > 1): ?>
+            <a href="manage_zoning.php?page=<?php echo $page - 1; ?>">Previous</a>
         <?php endif; ?>
-    </div>
-</body>
-</html>
+
+        <?php for($i = 1; $i <= $total_pages; $i++): ?>
+            <a href="manage_zoning.php?page=<?php echo $i; ?>" style="<?php if($i == $page) echo 'font-weight:bold;'; ?>"><?php echo $i; ?></a>
+        <?php endfor; ?>
+
+        <?php if($page < $total_pages): ?>
+            <a href="manage_zoning.php?page=<?php echo $page + 1; ?>">Next</a>
+        <?php endif; ?>
+    <?php endif; ?>
+</div>
+<?php else: ?>
+<p class="text-center" style="margin-top:20px;">No zoning certificates found. <a href="add_zoning.php">Add one now</a>.</p>
+<?php endif; ?>
+
+<?php require_once 'footer.php'; ?>
