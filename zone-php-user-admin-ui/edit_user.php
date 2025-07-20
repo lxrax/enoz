@@ -59,6 +59,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST["username"]; // Username is readonly, but get it for messages
     $is_admin = isset($_POST['is_admin']) ? 1 : 0;
 
+    // Prevent admin from editing their own account
+    if ($user_id == $_SESSION['id']) {
+        $_SESSION['error'] = "You cannot edit your own account from this screen.";
+        header("location: admin_dashboard.php");
+        exit;
+    }
+
+    // Prevent demoting the last admin
+    if ($is_admin == 0) {
+        $sql_check_admins = "SELECT COUNT(*) as admin_count FROM users WHERE is_admin = TRUE";
+        $result_check_admins = mysqli_query($link, $sql_check_admins);
+        $admin_count = mysqli_fetch_assoc($result_check_admins)['admin_count'];
+        if ($admin_count <= 1) {
+            $sql_is_this_user_admin = "SELECT is_admin FROM users WHERE id = ?";
+            if ($stmt_is_admin = mysqli_prepare($link, $sql_is_this_user_admin)) {
+                mysqli_stmt_bind_param($stmt_is_admin, "i", $user_id);
+                mysqli_stmt_execute($stmt_is_admin);
+                $result_is_admin = mysqli_stmt_get_result($stmt_is_admin);
+                $this_user_is_admin = mysqli_fetch_assoc($result_is_admin)['is_admin'];
+                if ($this_user_is_admin) {
+                    $_SESSION['error'] = "You cannot demote the last admin account.";
+                    header("location: admin_dashboard.php");
+                    exit;
+                }
+            }
+        }
+    }
+
+
     // Password validation (only if new password is provided)
     if (!empty(trim($_POST["password"]))) {
         $password = trim($_POST["password"]);
