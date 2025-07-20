@@ -133,7 +133,14 @@ $condition_texts = [
             <ol style="padding-left: 20px;">
                 <?php for($i = 1; $i <= 10; $i++): ?>
                     <?php if(!empty($condition_texts[$i])): ?>
-                    <li><?php echo htmlspecialchars($condition_texts[$i]); ?></li>
+                    <li>
+                        <?php if($conditions_data['condition'.$i] == 1): ?>
+                            <span style="font-family: 'DejaVu Sans', sans-serif;">&#10004;</span>
+                        <?php else: ?>
+                            <span style="font-family: 'DejaVu Sans', sans-serif;">&#10008;</span>
+                        <?php endif; ?>
+                        <?php echo htmlspecialchars($condition_texts[$i]); ?>
+                    </li>
                     <?php endif; ?>
                 <?php endfor; ?>
             </ol>
