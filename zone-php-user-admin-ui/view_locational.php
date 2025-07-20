@@ -141,6 +141,7 @@ $is_admin_view_lc = isset($_SESSION["is_admin"]) && $_SESSION["is_admin"] === tr
         <div><?php echo nl2br(htmlspecialchars($clearance['evaluation_data'] ?: 'N/A')); ?></div>
     </div>
 
+    <?php if ($clearance['decision'] !== 'Denied'): ?>
     <div class="detail-item full-width-grid" style="margin-top:20px;">
         <strong>Conditions:</strong>
         <ul class="conditions-view-list">
@@ -156,6 +157,7 @@ $is_admin_view_lc = isset($_SESSION["is_admin"]) && $_SESSION["is_admin"] === tr
             <?php endfor; ?>
         </ul>
     </div>
+    <?php endif; ?>
 
 
     <div class="actions">

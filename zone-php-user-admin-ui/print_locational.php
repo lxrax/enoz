@@ -132,6 +132,7 @@ $condition_texts = [
             <strong>DECISION:</strong> <?php echo nl2br(htmlspecialchars($permit['decision'])); ?>
         </div>
 
+        <?php if ($permit['decision'] !== 'Denied'): ?>
         <div class="conditions-list">
             <p>The foregoing clearance is granted subject to the following conditions:</p>
             <ol style="padding-left: 20px;">
@@ -149,6 +150,7 @@ $condition_texts = [
                 <?php endfor; ?>
             </ol>
         </div>
+        <?php endif; ?>
 
         <div class="footer-section">
             <div class="signature-block">

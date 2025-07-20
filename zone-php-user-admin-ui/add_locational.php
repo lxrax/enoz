@@ -154,6 +154,22 @@ $condition_texts = [
             checkboxes[i].checked = source.checked;
         }
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const decisionSelect = document.querySelector('select[name="decision"]');
+        const conditionsFieldset = document.querySelector('.conditions-fieldset');
+
+        function toggleConditions() {
+            if (decisionSelect.value === 'Denied') {
+                conditionsFieldset.style.display = 'none';
+            } else {
+                conditionsFieldset.style.display = 'block';
+            }
+        }
+
+        decisionSelect.addEventListener('change', toggleConditions);
+        toggleConditions(); // Run on page load
+    });
 </script>
 
 <div class="wrapper">
