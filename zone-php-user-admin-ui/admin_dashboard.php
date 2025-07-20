@@ -14,16 +14,19 @@ $link = get_db_connection();
 
 // Fetch all non-admin users
 $users = [];
-$sql = "SELECT id, username FROM users WHERE is_admin = FALSE ORDER BY username ASC";
-if($result = mysqli_query($link, $sql)){
-    if(mysqli_num_rows($result) > 0){
+$current_user_id = $_SESSION['id'];
+$sql = "SELECT id, username FROM users WHERE id != ? ORDER BY username ASC";
+if($stmt = mysqli_prepare($link, $sql)){
+    mysqli_stmt_bind_param($stmt, "i", $current_user_id);
+    if(mysqli_stmt_execute($stmt)){
+        $result = mysqli_stmt_get_result($stmt);
         while($row = mysqli_fetch_assoc($result)){
             $users[] = $row;
         }
-        mysqli_free_result($result);
+    } else {
+        echo "ERROR: Could not able to execute $sql. " . mysqli_error($link);
     }
-} else{
-    echo "ERROR: Could not able to execute $sql. " . mysqli_error($link);
+    mysqli_stmt_close($stmt);
 }
 mysqli_close($link);
 ?>
