@@ -14,7 +14,12 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
     $user_id = trim($_GET["id"]);
 
     // Prepare a delete statement
-    $sql = "DELETE FROM users WHERE id = ? AND is_admin = FALSE"; // Ensure we don't delete admins accidentally
+    $sql = "DELETE FROM users WHERE id = ? AND is_admin = FALSE AND is_manager = FALSE"; // Ensure we don't delete admins or managers accidentally
+
+    if (isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === true) {
+        // Admin can delete managers
+        $sql = "DELETE FROM users WHERE id = ? AND is_admin = FALSE";
+    }
 
     if($stmt = mysqli_prepare($link, $sql)){
         // Bind variables to the prepared statement as parameters

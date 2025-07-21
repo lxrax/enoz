@@ -68,6 +68,12 @@ mysqli_close($link);
                 </label>
             </div>
             <div class="form-group">
+                <label for="is_manager_checkbox">
+                    <input type="checkbox" name="is_manager" id="is_manager_checkbox" value="1">
+                    Make this user a Manager
+                </label>
+            </div>
+            <div class="form-group">
                 <input type="submit" class="btn btn-primary" value="Add User">
             </div>
         </form>

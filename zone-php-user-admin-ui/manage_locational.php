@@ -102,7 +102,9 @@ mysqli_close($link);
                     <td class="action-links">
                         <a href="view_locational.php?id=<?php echo $lc['id']; ?>" title="View Details">View</a>
                         <a href="edit_locational.php?id=<?php echo $lc['id']; ?>" title="Edit">Edit</a>
+                        <?php if (isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === true): ?>
                         <a href="#" onclick="confirmDeleteLocational(<?php echo $lc['id']; ?>); return false;" class="delete" title="Delete">Delete</a>
+                        <?php endif; ?>
                         <a href="print_locational.php?id=<?php echo $lc['id']; ?>" title="Print" target="_blank">Print</a>
                     </td>
                 </tr>

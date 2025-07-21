@@ -3,7 +3,8 @@
 session_start();
 
 // Check if the user is logged in and is an admin, otherwise redirect to login page
-if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true || !isset($_SESSION["is_admin"]) || $_SESSION["is_admin"] !== true){
+// Ensure user is a logged-in admin or manager
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true || (!isset($_SESSION["is_admin"]) && !isset($_SESSION["is_manager"]))) {
     header("location: login.php");
     exit;
 }

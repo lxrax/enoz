@@ -52,19 +52,21 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     if(empty($username_err) && empty($password_err)){
         // Determine the admin status from the checkbox
         $is_admin = isset($_POST['is_admin']) && $_POST['is_admin'] == '1' ? 1 : 0;
+        $is_manager = isset($_POST['is_manager']) && $_POST['is_manager'] == '1' ? 1 : 0;
 
         // Prepare an insert statement
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-        $sql = "INSERT INTO users (username, password, is_admin) VALUES (?, ?, ?)";
+        $sql = "INSERT INTO users (username, password, is_admin, is_manager) VALUES (?, ?, ?, ?)";
 
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "ssi", $param_username, $param_password, $param_is_admin);
+            mysqli_stmt_bind_param($stmt, "ssii", $param_username, $param_password, $param_is_admin, $param_is_manager);
 
             // Set parameters
             $param_username = $username;
             $param_password = $hashed_password;
             $param_is_admin = $is_admin;
+            $param_is_manager = $is_manager;
 
             // Attempt to execute the prepared statement
             if(mysqli_stmt_execute($stmt)){

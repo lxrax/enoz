@@ -25,7 +25,7 @@ if (isset($_GET["id"]) && !empty(trim($_GET["id"]))) {
 
     // Fetch user data on initial GET request
     if ($_SERVER["REQUEST_METHOD"] == "GET") {
-        $sql = "SELECT username, is_admin FROM users WHERE id = ?";
+        $sql = "SELECT username, is_admin, is_manager FROM users WHERE id = ?";
         if ($stmt = mysqli_prepare($link, $sql)) {
             mysqli_stmt_bind_param($stmt, "i", $user_id);
             if (mysqli_stmt_execute($stmt)) {
@@ -34,6 +34,7 @@ if (isset($_GET["id"]) && !empty(trim($_GET["id"]))) {
                     $row = mysqli_fetch_assoc($result);
                     $username = $row["username"];
                     $is_admin = $row["is_admin"];
+                    $is_manager = $row["is_manager"];
                 } else {
                     $_SESSION['error'] = "No user found with that ID.";
                     header("location: admin_dashboard.php");
@@ -58,6 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user_id = $_POST["id"];
     $username = $_POST["username"]; // Username is readonly, but get it for messages
     $is_admin = isset($_POST['is_admin']) ? 1 : 0;
+    $is_manager = isset($_POST['is_manager']) ? 1 : 0;
 
     // Password validation (only if new password is provided)
     if (!empty(trim($_POST["password"]))) {
@@ -80,16 +82,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($password_err) && empty($confirm_password_err)) {
         // If password is not being changed
         if (empty($password)) {
-            $sql = "UPDATE users SET is_admin = ? WHERE id = ?";
+            $sql = "UPDATE users SET is_admin = ?, is_manager = ? WHERE id = ?";
             if ($stmt = mysqli_prepare($link, $sql)) {
-                mysqli_stmt_bind_param($stmt, "ii", $is_admin, $user_id);
+                mysqli_stmt_bind_param($stmt, "iii", $is_admin, $is_manager, $user_id);
             }
         } else { // If password is being changed
             // IMPORTANT: HASH THE NEW PASSWORD
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-            $sql = "UPDATE users SET password = ?, is_admin = ? WHERE id = ?";
+            $sql = "UPDATE users SET password = ?, is_admin = ?, is_manager = ? WHERE id = ?";
             if ($stmt = mysqli_prepare($link, $sql)) {
-                mysqli_stmt_bind_param($stmt, "sii", $hashed_password, $is_admin, $user_id);
+                mysqli_stmt_bind_param($stmt, "siii", $hashed_password, $is_admin, $is_manager, $user_id);
             }
         }
 
@@ -145,6 +147,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label for="is_admin_checkbox">
                         <input type="checkbox" name="is_admin" id="is_admin_checkbox" value="1" <?php echo ($is_admin == 1) ? 'checked' : ''; ?>>
                         Make this user an Administrator
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label for="is_manager_checkbox">
+                        <input type="checkbox" name="is_manager" id="is_manager_checkbox" value="1" <?php echo ($is_manager == 1) ? 'checked' : ''; ?>>
+                        Make this user a Manager
                     </label>
                 </div>
 

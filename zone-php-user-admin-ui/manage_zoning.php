@@ -98,7 +98,9 @@ mysqli_close($link);
                     <td class="action-links">
                         <a href="view_zoning.php?id=<?php echo $cert['id']; ?>" title="View Details">View</a>
                         <a href="edit_zoning.php?id=<?php echo $cert['id']; ?>" title="Edit">Edit</a>
+                        <?php if (isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === true): ?>
                         <a href="#" onclick="confirmDelete(<?php echo $cert['id']; ?>); return false;" class="delete" title="Delete">Delete</a>
+                        <?php endif; ?>
                         <a href="print_zoning.php?id=<?php echo $cert['id']; ?>" title="Print" target="_blank">Print</a>
                     </td>
                 </tr>

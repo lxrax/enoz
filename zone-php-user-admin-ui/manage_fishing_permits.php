@@ -89,7 +89,9 @@ mysqli_close($link);
                     <td class="action-links">
                         <a href="view_fishing_permit.php?id=<?php echo $permit['id']; ?>">View</a>
                         <a href="edit_fishing_permit.php?id=<?php echo $permit['id']; ?>">Edit</a>
+                        <?php if (isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === true): ?>
                         <a href="#" onclick="confirmDeleteFishingPermit(<?php echo $permit['id']; ?>); return false;" class="delete">Delete</a>
+                        <?php endif; ?>
                         <a href="print_fishing_permit.php?id=<?php echo $permit['id']; ?>" target="_blank">Print</a>
                     </td>
                 </tr>
